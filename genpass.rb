@@ -7,7 +7,7 @@ SALT                  = "PaXvnqQahiaPXdm5s5"
 
 # initialize program variables
 entered_url     = nil
-secret_password = nil
+master_password = nil
 password_size   = 0
 
 # enter the account URL
@@ -19,16 +19,22 @@ end while entered_url.empty?
 loop do
   begin
     # enter the secret password
-    secret_password = STDIN.getpass("Enter your secret password: ").strip
-  end while secret_password.empty?
+    # master_password = STDIN.getpass("Enter your master password: ").strip
+    print "Enter your master password: "
+    master_password = STDIN.noecho(&:gets).chomp.strip
+  end while master_password.empty?
+  puts ""
   
   begin
     # re-enter the secret password
-    re_entered_password = STDIN.getpass("Type again your secret password: ").strip
-  end while re_entered_password.empty?      
+    # re_entered_password = STDIN.getpass("Type again your secret password: ").strip
+    print "Type again your master password: "
+    re_entered_password = STDIN.noecho(&:gets).chomp.strip
+  end while re_entered_password.empty?  
+  puts ""    
 
   # make sure the entered password matches to that of the re-entered password
-  if re_entered_password == secret_password
+  if re_entered_password == master_password
     break
   else
     puts "Entered password doesn't match. Please, re-type your password."
@@ -44,7 +50,7 @@ end
 
 
 # build an identity
-identity = "#{secret_password}-#{entered_url}-#{SALT}"
+identity = "#{master_password}-#{entered_url}-#{SALT}"
 
 ##
 ## create a unique generated_password by using SHA-256 hash
